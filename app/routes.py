@@ -9,6 +9,8 @@ from .extensions import limiter, db
 
 bp = Blueprint("routes", __name__)
 
+STANDARD_PAY = 13
+
 @bp.route("/", methods=['GET'])
 def index():
     return render_template("index.html")
@@ -56,7 +58,7 @@ def calendar_feed():
         else:
             continue
 
-        rate = float(job.get("StaffRate")) or 0
+        rate = float(job.get("StaffRate") or STANDARD_PAY)
         pay = rate * hour_length
 
         details = build_description(job, hour_length, rate, pay)
